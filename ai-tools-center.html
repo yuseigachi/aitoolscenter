@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Hub - Online Conversie & Tools</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004499;
+            --accent-color: #ff6600;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: white;
+        }
+
+        /* Header & Navigation */
+        .top-bar {
+            background: var(--bg-light);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-bar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .language-dropdown {
+            position: relative;
+        }
+
+        .language-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+            margin-top: 0.5rem;
+        }
+
+        .language-menu.show {
+            display: block;
+        }
+
+        .language-menu a {
+            display: block;
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 0.6rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .language-menu a:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        .language-menu a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        nav ul li.language-dropdown {
+            position: relative;
+        }
+
+        nav ul li.language-dropdown .language-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-family: inherit;
+        }
+
+        nav ul li.language-dropdown .language-btn:hover {
+            color: var(--primary-color);
+        }
+
+        nav ul li.language-dropdown .language-menu {
+            right: 0;
+            left: auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 60px 2rem 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 60px 0;
+            background: #e6f2ff;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+        }
+
+        .categories-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-group {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .category-group-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .category-items {
+            list-style: none;
+        }
+
+        .category-items li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-items li a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+            transition: all 0.3s;
+        }
+
+        .category-items li a:hover {
+            padding-left: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .category-items li a::before {
+            content: "+ ";
+            margin-right: 0.3rem;
+        }
+
+        /* Tools Grid */
+        .tools-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .tools-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: transparent;
+            border: none;
+            padding: 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 80px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tool-card:hover .tool-icon {
+            box-shadow: 0 8px 25px rgba(0,102,204,0.3);
+            transform: scale(1.05);
+        }
+
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,102,204,0.2);
+            transition: all 0.3s;
+        }
+
+        .tool-card h3 {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .tool-card p {
+            display: none;
+        }
+
+        /* AI Tools Section */
+        .ai-tools-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow-y: auto;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .converter-area {
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .converter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .converter-row input,
+        .converter-row select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .converter-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+            grid-column: 1 / -1;
+        }
+
+        .convert-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .convert-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .result-box {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: none;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: var(--bg-light);
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #e6f2ff;
+        }
+
+        /* Features */
+        .features-section {
+            padding: 60px 0;
+            background: var(--bg-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .testimonial-card p {
+            color: var(--text-dark);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info span {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 60px 0;
+            background: var(--bg-light);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .faq-question {
+            padding: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--bg-light);
+        }
+
+        .faq-answer {
+            padding: 0 1.2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.2rem 1.2rem;
+            max-height: 300px;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .categories-grid,
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .converter-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <span data-translate="welcome">Welkom bij AI Tools Center - Uw complete conversie platform</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">AI Tools <span>Center</span></a>
+            <ul>
+                <li><a href="#home" data-translate="nav_home">Home</a></li>
+                <li><a href="#categories" data-translate="nav_categories">Categorieën</a></li>
+                <li><a href="#ai-tools" data-translate="nav_ai_tools">AI Tools</a></li>
+                <li><a href="#faq" data-translate="nav_faq">FAQ</a></li>
+                <li class="language-dropdown">
+                    <button class="language-btn" onclick="toggleLanguageMenu()">
+                        🌐 Nederlands ▼
+                    </button>
+                    <div class="language-menu" id="languageMenu">
+                        <a href="#" class="active" onclick="selectLanguage(this, 'Nederlands')">Nederlands</a>
+                        <a href="#" onclick="selectLanguage(this, 'English')">English</a>
+                        <a href="#" onclick="selectLanguage(this, 'Español')">Español</a>
+                        <a href="#" onclick="selectLanguage(this, 'Русский')">Русский</a>
+                        <a href="#" onclick="selectLanguage(this, 'العربية')">العربية</a>
+                        <a href="#" onclick="selectLanguage(this, 'Български')">Български</a>
+                        <a href="#" onclick="selectLanguage(this, 'Català')">Català</a>
+                        <a href="#" onclick="selectLanguage(this, 'Čeština')">Čeština</a>
+                        <a href="#" onclick="selectLanguage(this, 'Dansk')">Dansk</a>
+                        <a href="#" onclick="selectLanguage(this, 'Deutsch')">Deutsch</a>
+                        <a href="#" onclick="selectLanguage(this, 'Ελληνικά')">Ελληνικά</a>
+                        <a href="#" onclick="selectLanguage(this, 'Eesti')">Eesti</a>
+                        <a href="#" onclick="selectLanguage(this, 'Suomi')">Suomi</a>
+                        <a href="#" onclick="selectLanguage(this, 'Français')">Français</a>
+                        <a href="#" onclick="selectLanguage(this, 'עברית')">עברית</a>
+                        <a href="#" onclick="selectLanguage(this, 'हिन्दी')">हिन्दी</a>
+                        <a href="#" onclick="selectLanguage(this, 'Hrvatski')">Hrvatski</a>
+                        <a href="#" onclick="selectLanguage(this, 'Magyar')">Magyar</a>
+                        <a href="#" onclick="selectLanguage(this, 'Bahasa Indonesia')">Bahasa Indonesia</a>
+                        <a href="#" onclick="selectLanguage(this, 'Italiano')">Italiano</a>
+                        <a href="#" onclick="selectLanguage(this, '日本語')">日本語</a>
+                        <a href="#" onclick="selectLanguage(this, '한국어')">한국어</a>
+                        <a href="#" onclick="selectLanguage(this, 'Norsk')">Norsk</a>
+                        <a href="#" onclick="selectLanguage(this, 'Polski')">Polski</a>
+                        <a href="#" onclick="selectLanguage(this, 'Português')">Português</a>
+                        <a href="#" onclick="selectLanguage(this, 'Slovenčina')">Slovenčina</a>
+                        <a href="#" onclick="selectLanguage(this, 'Svenska')">Svenska</a>
+                        <a href="#" onclick="selectLanguage(this, 'Türkçe')">Türkçe</a>
+                        <a href="#" onclick="selectLanguage(this, 'Українська')">Українська</a>
+                        <a href="#" onclick="selectLanguage(this, 'Tiếng Việt')">Tiếng Việt</a>
+                        <a href="#" onclick="selectLanguage(this, '简体中文')">简体中文</a>
+                        <a href="#" onclick="selectLanguage(this, '繁體中文')">繁體中文</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 data-translate="hero_title">Online Conversie Tools & Calculators</h1>
+        <p data-translate="hero_subtitle">Converteer alles - Valuta, Lengtes, Gewicht, Temperatuur en meer</p>
+        <div class="search-box">
+            <input type="text" placeholder="Zoek een conversietool...">
+            <button data-translate="hero_button">Zoeken</button>
+        </div>
+    </section>
+
+    <!-- AI Tools Section -->
+    <section class="ai-tools-section" id="ai-tools">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-translate="ai_tools_title">AI-Powered Tools</h2>
+                <p data-translate="ai_tools_subtitle">Professionele conversie- en bewerkingstools</p>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="openFileModal('Afbeelding naar Tekst', 'Upload een afbeelding om tekst te extraheren met OCR technologie.')">
+                    <div class="tool-icon">🖼️</div>
+                    <h3>Afbeelding naar Tekst</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Pdf naar Word', 'Upload een PDF om het te converteren naar bewerkbaar Word document.')">
+                    <div class="tool-icon">📄</div>
+                    <h3>PDF naar Word</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Jpg naar Word', 'Upload een JPG afbeelding om het te converteren naar Word.')">
+                    <div class="tool-icon">🖼️</div>
+                    <h3>JPG naar Word</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Pdf naar Text', 'Upload een PDF om tekst te extraheren.')">
+                    <div class="tool-icon">📋</div>
+                    <h3>PDF naar Tekst</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openTextModal('Text naar Word', 'Voer tekst in om een Word document te maken.')">
+                    <div class="tool-icon">📝</div>
+                    <h3>Tekst naar Word</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Merge PDF', 'Upload meerdere PDF bestanden om ze samen te voegen.')">
+                    <div class="tool-icon">🔗</div>
+                    <h3>Merge PDF</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('WAV naar MP3', 'Upload een WAV bestand voor conversie naar MP3.')">
+                    <div class="tool-icon">🎵</div>
+                    <h3>WAV naar MP3</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('MP3 naar WAV', 'Upload een MP3 bestand voor conversie naar WAV.')">
+                    <div class="tool-icon">🎶</div>
+                    <h3>MP3 naar WAV</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Webp naar Jpg', 'Upload een WebP afbeelding voor conversie naar JPG.')">
+                    <div class="tool-icon">🖼️</div>
+                    <h3>WebP naar JPG</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Image Translator', 'Upload een afbeelding met tekst om te vertalen.')">
+                    <div class="tool-icon">🌐</div>
+                    <h3>Image Translator</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('QR Code Scanner', 'Upload een afbeelding met QR-code om te scannen.')">
+                    <div class="tool-icon">📱</div>
+                    <h3>QR Scanner</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openTextModal('QR Code Generator', 'Voer tekst of URL in om een QR-code te genereren.')">
+                    <div class="tool-icon">⚡</div>
+                    <h3>QR Generator</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openVcardModal()">
+                    <div class="tool-icon">👤</div>
+                    <h3>QR Vcard</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Barcode Scanner', 'Upload een afbeelding met barcode om te scannen.')">
+                    <div class="tool-icon">🏷️</div>
+                    <h3>Barcode Scanner</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openTextModal('Woordenteller', 'Voer tekst in om woorden en tekens te tellen.')">
+                    <div class="tool-icon">🔢</div>
+                    <h3>Woordenteller</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openTextModal('Tekenteller', 'Voer tekst in om het aantal tekens te tellen.')">
+                    <div class="tool-icon">🔤</div>
+                    <h3>Tekenteller</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openTextModal('Extra spaties verwijderen', 'Plak tekst om overtollige spaties te verwijderen.')">
+                    <div class="tool-icon">✂️</div>
+                    <h3>Spaties Verwijderen</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Invert Image', 'Upload een afbeelding om de kleuren te inverteren.')">
+                    <div class="tool-icon">🎨</div>
+                    <h3>Invert Image</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('Word naar PDF', 'Upload een Word document om te converteren naar PDF.')">
+                    <div class="tool-icon">📑</div>
+                    <h3>Word naar PDF</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('PDF naar JPG', 'Upload een PDF om te converteren naar JPG afbeelding.')">
+                    <div class="tool-icon">🖼️</div>
+                    <h3>PDF naar JPG</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('AVIF naar Jpg', 'Upload een AVIF afbeelding om te converteren naar JPG.')">
+                    <div class="tool-icon">🎞️</div>
+                    <h3>AVIF naar Jpg</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openFileModal('DXF to STL Converter', 'Upload een DXF bestand om te converteren naar STL formaat.')">
+                    <div class="tool-icon">🔧</div>
+                    <h3>DXF to STL</h3>
+                </div>
+                
+                <div class="tool-card" onclick="openImageToSvgModal()">
+                    <div class="tool-icon">🎨</div>
+                    <h3>PNG/JPG to SVG</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-translate="categories_title">Categorieën</h2>
+                <p data-translate="categories_subtitle">Kies een categorie om te converteren</p>
+            </div>
+            
+            <div class="categories-list">
+                <!-- Beweging -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Beweging</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openRunningModal(); return false;">Hardlopen</a></li>
+                        <li><a href="#" onclick="openConverterModal('Snelheid'); return false;">Snelheid</a></li>
+                        <li><a href="#" onclick="openConverterModal('Versnelling'); return false;">Versnelling</a></li>
+                        <li><a href="#" onclick="openConverterModal('Snelheid'); return false;">Windsnelheid</a></li>
+                    </ul>
+                </div>
+
+                <!-- Dimensie -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Dimensie</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openConverterModal('Gebied'); return false;">Gebied</a></li>
+                        <li><a href="#" onclick="openConverterModal('Lengte'); return false;">Lengte</a></li>
+                        <li><a href="#" onclick="openConverterModal('Volume'); return false;">Volume</a></li>
+                    </ul>
+                </div>
+
+                <!-- Elektriciteit -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Elektriciteit</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openConverterModal('Capaciteit'); return false;">Elektrische capaciteit</a></li>
+                        <li><a href="#" onclick="openConverterModal('Lading'); return false;">Elektrische lading</a></li>
+                        <li><a href="#" onclick="openConverterModal('Stroom'); return false;">Elektrische stroom</a></li>
+                        <li><a href="#" onclick="openConverterModal('Weerstand'); return false;">Elektrische weerstand</a></li>
+                        <li><a href="#" onclick="openConverterModal('Geleidbaarheid'); return false;">Geleidbaarheid</a></li>
+                        <li><a href="#" onclick="openConverterModal('Potentiaal'); return false;">Potentiaal</a></li>
+                        <li><a href="#" onclick="openConverterModal('Zelfinductie'); return false;">Zelfinductie</a></li>
+                    </ul>
+                </div>
+
+                <!-- Energie -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Energie</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openConverterModal('Energie'); return false;">Brandstofgebruik</a></li>
+                        <li><a href="#" onclick="openConverterModal('Energie'); return false;">Energie</a></li>
+                        <li><a href="#" onclick="openConverterModal('Temperatuur'); return false;">Temperatuur</a></li>
+                        <li><a href="#" onclick="openConverterModal('Vermogen'); return false;">Vermogen</a></li>
+                    </ul>
+                </div>
+
+                <!-- Fotometrie -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Fotometrie</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Lichtenergie', 'Converteer lichtenergie eenheden'); return false;">Lichtenergie</a></li>
+                        <li><a href="#" onclick="openModal('Lichtsterkte', 'Converteer lichtsterkte eenheden'); return false;">Lichtsterkte</a></li>
+                        <li><a href="#" onclick="openModal('Lichtstroom', 'Converteer lichtstroom eenheden'); return false;">Lichtstroom</a></li>
+                        <li><a href="#" onclick="openModal('Luminantie', 'Converteer luminantie eenheden'); return false;">Luminantie</a></li>
+                        <li><a href="#" onclick="openModal('Verlichtingssterkte', 'Converteer verlichtingssterkte'); return false;">Verlichtingssterkte</a></li>
+                    </ul>
+                </div>
+
+                <!-- Informatica -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Informatica</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Bandbreedte', 'Converteer bandbreedte eenheden'); return false;">Bandbreedte</a></li>
+                        <li><a href="#" onclick="openModal('Opslag', 'Converteer opslagcapaciteit'); return false;">Opslag van gegevens</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kleding -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Kleding</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Hoed maat', 'Converteer hoed maten'); return false;">Hoed maat</a></li>
+                        <li><a href="#" onclick="openModal('Kinderschoenmaat', 'Converteer kinderschoenmaten'); return false;">Kinderschoenmaat</a></li>
+                        <li><a href="#" onclick="openModal('Kleding', 'Converteer kledingmaten'); return false;">Kleding: jurk en pak</a></li>
+                        <li><a href="#" onclick="openModal('Schoenmaat', 'Converteer schoenmaten'); return false;">Schoenmaat</a></li>
+                    </ul>
+                </div>
+
+                <!-- Magnetisme -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Magnetisme</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Magnetische flux', 'Converteer magnetische flux'); return false;">Magnetische flux</a></li>
+                        <li><a href="#" onclick="openModal('Magnetische fluxdichtheid', 'Converteer magnetische fluxdichtheid'); return false;">Magnetische fluxdichtheid</a></li>
+                        <li><a href="#" onclick="openModal('Magnetische veldsterkte', 'Converteer magnetische veldsterkte'); return false;">Magnetische veldsterkte</a></li>
+                        <li><a href="#" onclick="openModal('Magnetomotorische kracht', 'Converteer magnetomotorische kracht'); return false;">Magnetomotorische kracht</a></li>
+                    </ul>
+                </div>
+
+                <!-- Mechanica -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Mechanica</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openConverterModal('Gewicht'); return false;">Gewicht</a></li>
+                        <li><a href="#" onclick="openModal('Koppel', 'Converteer koppel/moment eenheden'); return false;">Koppel</a></li>
+                        <li><a href="#" onclick="openModal('Kracht', 'Converteer kracht eenheden'); return false;">Kracht</a></li>
+                        <li><a href="#" onclick="openModal('Queteletindex', 'Bereken BMI/Quetelet index'); return false;">Queteletindex</a></li>
+                    </ul>
+                </div>
+
+                <!-- Radioactief verval -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Radioactief verval</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Equivalente dosis', 'Converteer equivalente dosis'); return false;">Equivalente dosis</a></li>
+                        <li><a href="#" onclick="openModal('Geabsorbeerde dosis', 'Converteer geabsorbeerde dosis'); return false;">Geabsorbeerde dosis</a></li>
+                        <li><a href="#" onclick="openModal('Radioactief verval', 'Converteer radioactief verval'); return false;">Radioactief verval</a></li>
+                    </ul>
+                </div>
+
+                <!-- Scheikunde -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Scheikunde</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Dichtheid', 'Converteer dichtheid eenheden'); return false;">Dichtheid</a></li>
+                        <li><a href="#" onclick="openModal('Dynamische viscositeit', 'Converteer dynamische viscositeit'); return false;">Dynamische viscositeit</a></li>
+                        <li><a href="#" onclick="openModal('Kinematische viscositeit', 'Converteer kinematische viscositeit'); return false;">Kinematische viscositeit</a></li>
+                        <li><a href="#" onclick="openModal('Molaire massa', 'Converteer molaire massa'); return false;">Molaire massa</a></li>
+                        <li><a href="#" onclick="openModal('Stofhoeveelheid', 'Converteer stofhoeveelheid'); return false;">Stofhoeveelheid</a></li>
+                    </ul>
+                </div>
+
+                <!-- Stroomsnelheid -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Stroomsnelheid</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Massastroom', 'Converteer massastroom eenheden'); return false;">Massastroom</a></li>
+                        <li><a href="#" onclick="openModal('Volumedebiet', 'Converteer volumedebiet eenheden'); return false;">Volumedebiet</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tijd -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Tijd</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openConverterModal('Tijd'); return false;">Tijd</a></li>
+                        <li><a href="#" onclick="openModal('Tijdzones', 'Converteer tussen tijdzones'); return false;">Tijdzones</a></li>
+                        <li><a href="#" onclick="openModal('Zwangerschapskalender', 'Bereken zwangerschapsweken'); return false;">Zwangerschapskalender</a></li>
+                    </ul>
+                </div>
+
+                <!-- Overig -->
+                <div class="category-group">
+                    <h3 class="category-group-title">Overig</h3>
+                    <ul class="category-items">
+                        <li><a href="#" onclick="openModal('Bandenmaat calculator', 'Bereken bandenmaten'); return false;">Bandenmaat calculator</a></li>
+                        <li><a href="#" onclick="openConverterModal('Druk'); return false;">Druk</a></li>
+                        <li><a href="#" onclick="openModal('Frequentie', 'Converteer frequentie eenheden'); return false;">Frequentie</a></li>
+                        <li><a href="#" onclick="openConverterModal('Hoek'); return false;">Hoek</a></li>
+                        <li><a href="#" onclick="openModal('Papierformaat', 'Converteer papierformaten'); return false;">Papierformaat</a></li>
+                        <li><a href="#" onclick="openModal('Talstelsel', 'Converteer tussen talstelsels'); return false;">Talstelsel</a></li>
+                        <li><a href="#" onclick="openModal('TV en monitor grootte', 'Bereken schermafmetingen'); return false;">TV en monitor grootte</a></li>
+                        <li><a href="#" onclick="openCategoryModal('Valuta', 'Converteer tussen verschillende valuta'); return false;">Valuta</a></li>
+                        <li><a href="#" onclick="openModal('Vertaal', 'Vertaal tekst naar andere talen'); return false;">Vertaal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Waarom AI Tools Hub?</h2>
+                <p>De voordelen van onze platform</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Supersnel</h3>
+                    <p>Directe resultaten zonder wachttijd. Alle conversies gebeuren in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Meertalig</h3>
+                    <p>Beschikbaar in 32 talen voor gebruikers over de hele wereld.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Veilig</h3>
+                    <p>Uw data is veilig. Alle bestanden worden na gebruik automatisch verwijderd.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🆓</div>
+                    <h3>Gratis</h3>
+                    <p>Alle tools zijn volledig gratis te gebruiken zonder verborgen kosten.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-translate="testimonials_title">Wat Gebruikers Zeggen</h2>
+                <p data-translate="testimonials_subtitle">Reviews van tevreden klanten</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Fantastische website! Ik gebruik het dagelijks voor valutaconversies. Snel en betrouwbaar."</p>
+                    <div class="author">
+                        <div class="author-avatar">MV</div>
+                        <div class="author-info">
+                            <h4>Maria van Dijk</h4>
+                            <span>Zakenreiziger</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"De tools zijn geweldig. Besparen me veel tijd en werken perfect op AI Tools Center."</p>
+                    <div class="author">
+                        <div class="author-avatar">PB</div>
+                        <div class="author-info">
+                            <h4>Peter Bakker</h4>
+                            <span>Accountant</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Eindelijk één plek voor alle conversies die ik nodig heb. Aanrader!"</p>
+                    <div class="author">
+                        <div class="author-avatar">LJ</div>
+                        <div class="author-info">
+                            <h4>Lisa Jansen</h4>
+                            <span>Student</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-translate="faq_title">Veelgestelde Vragen</h2>
+                <p data-translate="faq_subtitle">Antwoorden op uw vragen</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Zijn alle tools gratis?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Ja, alle conversietools en calculators op AI Tools Center zijn 100% gratis te gebruiken zonder registratie.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Hoe nauwkeurig zijn de conversies?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Onze conversies gebruiken de meest actuele wisselkoersen en nauwkeurige conversiefactoren. Voor valuta wordt data bijgewerkt meerdere keren per dag.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Moet ik software installeren?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Nee, alle tools werken direct in uw browser. Geen downloads of installaties nodig.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Zijn mijn bestanden veilig?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absoluut. Alle geüploade bestanden worden na verwerking automatisch verwijderd. We slaan geen persoonlijke data op.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Welke talen worden ondersteund?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        AI Tools Center is beschikbaar in 32 talen, waaronder Nederlands, Engels, Spaans, Duits, Frans, Chinees en veel meer.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Tools Center</h3>
+                    <p>Uw complete online conversie platform met tools voor elke situatie.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Populaire Tools</h3>
+                    <ul>
+                        <li><a href="#categories">Valuta Omrekenen</a></li>
+                        <li><a href="#categories">Lengte Conversie</a></li>
+                        <li><a href="#ai-tools">PDF naar Word</a></li>
+                        <li><a href="#ai-tools">QR Code Generator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categorieën</h3>
+                    <ul>
+                        <li><a href="#categories">Beweging</a></li>
+                        <li><a href="#categories">Dimensie</a></li>
+                        <li><a href="#categories">Energie</a></li>
+                        <li><a href="#categories">Tijd</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Informatie</h3>
+                    <ul>
+                        <li><a href="#">Instellingen</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="#">Privacybeleid</a></li>
+                        <li><a href="#">Cookie Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AI Tools Center. Alle rechten voorbehouden.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- File Upload Modal -->
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFileModal()">&times;</span>
+            <h2 id="fileModalTitle"></h2>
+            <p id="fileModalDescription"></p>
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <p>📁 Sleep uw bestand hier of klik om te uploaden</p>
+                <input type="file" id="fileInput" style="display: none;">
+                <button class="convert-btn" style="width: auto; padding: 0.6rem 1.5rem; margin-top: 1rem;">Bestand Selecteren</button>
+            </div>
+            <button class="convert-btn" onclick="processFile()">Converteren</button>
+        </div>
+    </div>
+
+    <!-- Text Input Modal -->
+    <div id="textModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTextModal()">&times;</span>
+            <h2 id="textModalTitle"></h2>
+            <p id="textModalDescription"></p>
+            <div class="converter-area">
+                <textarea id="textInput" placeholder="Voer uw tekst hier in..." style="width: 100%; min-height: 200px; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+            <button class="convert-btn" onclick="processText()">Verwerken</button>
+            <div id="textResult" class="result-box"></div>
+        </div>
+    </div>
+
+    <!-- Converter Modal (Universal) -->
+    <div id="converterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConverterModal()">&times;</span>
+            <h2 id="converterTitle"></h2>
+            <p id="converterDescription"></p>
+            <div class="converter-area">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark);">Waarde:</label>
+                    <input type="number" id="inputValue" placeholder="1" value="1" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark);">Van:</label>
+                    <select id="fromUnit" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;"></select>
+                </div>
+                <div class="converter-arrow">↓</div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark);">Resultaat:</label>
+                    <input type="number" id="outputValue" placeholder="Resultaat" readonly style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem; background: white;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark);">Naar:</label>
+                    <select id="toUnit" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;"></select>
+                </div>
+            </div>
+            <button class="convert-btn" onclick="performConversion()">Converteren</button>
+            <div id="conversionResult" class="result-box"></div>
+        </div>
+    </div>
+
+    <!-- Vcard Modal -->
+    <div id="vcardModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVcardModal()">&times;</span>
+            <h2>QR Code Generator voor Vcard</h2>
+            <p>Maak een QR-code met uw contactgegevens</p>
+            <div class="converter-area">
+                <input type="text" id="vcardFirstName" placeholder="Voornaam" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <input type="text" id="vcardLastName" placeholder="Achternaam" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <input type="email" id="vcardEmail" placeholder="E-mailadres" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <input type="tel" id="vcardPhone" placeholder="Telefoonnummer" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <input type="text" id="vcardCompany" placeholder="Bedrijfsnaam" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <input type="text" id="vcardWebsite" placeholder="Website" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+            </div>
+            <button class="convert-btn" onclick="generateVcard()">QR-Code Genereren</button>
+            <div id="vcardResult" style="margin-top: 2rem; text-align: center;"></div>
+        </div>
+    </div>
+
+    <!-- Running Calculator Modal -->
+    <div id="runningModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="close" onclick="closeRunningModal()">&times;</span>
+            <h2 style="color: #ff8c00;">Hardlopen</h2>
+            <p>How fast do I run? What is my pace? How far do I reach on one hour if I keep this speed or pace? How many minutes per kilometer in kilometers per hour? Use our running calculator, to calculate your running pace, running speed and for race time prediction.</p>
+            
+            <!-- Running Pace Calculator -->
+            <div class="converter-area">
+                <h3 style="color: #ff8c00; margin-bottom: 1rem;">Running pace calculator</h3>
+                <p style="margin-bottom: 1rem;">Type the distance and time of your race in the fields, to see the results below.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Distance</label>
+                        <input type="number" id="runPaceDistance" value="5" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Unit</label>
+                        <select id="runPaceUnit" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                            <option value="km">Kilometer (km)</option>
+                            <option value="mile">Mijl (mi)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <input type="radio" name="paceInputMode" value="time" checked style="margin-right: 0.5rem;"> Tijd
+                        <input type="radio" name="paceInputMode" value="pace" style="margin-left: 1.5rem; margin-right: 0.5rem;"> Pace (min/km)
+                    </label>
+                </div>
+                
+                <div id="paceTimeInputs" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="number" id="runPaceHH" placeholder="HH" min="0" value="0" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    <input type="number" id="runPaceMM" placeholder="MM" min="0" max="59" value="25" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    <input type="number" id="runPaceSS" placeholder="SS" min="0" max="59" value="0" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                </div>
+                
+                <button class="convert-btn" onclick="calculatePace()" style="margin-bottom: 1rem;">→</button>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4 style="margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">Unit - Pace/Speed</h4>
+                        <div id="paceResults">
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Minutes per km <span id="minPerKm" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Minutes per mile <span id="minPerMile" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Km/h <span id="kmPerH" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Mijl per uur <span id="milePerH" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Minutes per 400 m <span id="minPer400" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Minutes per 1500 m <span id="minPer1500" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff;">Minutes per 800 yards <span id="minPer800yd" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">Distance* - Tijd</h4>
+                        <div id="distanceResults">
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">1 km <span id="time1k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">2 km <span id="time2k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">5 km <span id="time5k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">10 km <span id="time10k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">15 km <span id="time15k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">20 km <span id="time20k" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Half marathon <span id="timeHalf" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                            <div style="padding: 0.5rem; background: #e6f2ff;">Marathon <span id="timeFull" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">* If you maintain the speed, you will run the above distances at the equivalent time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Running Speed and Pace Converter -->
+            <div class="converter-area" style="margin-top: 2rem;">
+                <h3 style="color: #ff8c00; margin-bottom: 1rem;">Running speed and running pace converter</h3>
+                <p style="margin-bottom: 1rem;">Type the speed you want to convert in the text box, to see the results in the table.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 1rem; align-items: end; margin-bottom: 1rem;">
+                    <input type="number" id="speedConvertValue" placeholder="Ik wil dit omzetten" step="0.01" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    <select id="speedConvertFrom" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                        <option value="kmh">Km/h (km/h)</option>
+                        <option value="mph">Mijl per uur (mph)</option>
+                        <option value="minkm">Minutes per km (min/km)</option>
+                        <option value="minmile">Minutes per mile (min/mi)</option>
+                        <option value="min400">Minutes per 400 m (min/400m)</option>
+                        <option value="min1500">Minutes per 1500 m (min/1500m)</option>
+                        <option value="min800yd">Minutes per 800 yards (min/800yd)</option>
+                    </select>
+                    <button class="convert-btn" onclick="convertSpeed()" style="padding: 0.8rem 1.5rem;">→</button>
+                </div>
+                
+                <div style="padding: 1rem;">
+                    <h4 style="margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">Unit - Pace/Speed</h4>
+                    <div id="speedConvertResults">
+                        <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Minutes per km <span id="convMinPerKm" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Minutes per mile <span id="convMinPerMile" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Km/h <span id="convKmPerH" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Mijl per uur <span id="convMilePerH" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #cce5ff; border-bottom: 1px solid #999;">Minutes per 400 m <span id="convMinPer400" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #e6f2ff; border-bottom: 1px solid #999;">Minutes per 1500 m <span id="convMinPer1500" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                        <div style="padding: 0.5rem; background: #cce5ff;">Minutes per 800 yards <span id="convMinPer800yd" style="float: right; font-weight: 600; color: #004499;">-</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Finish Time Calculator -->
+            <div class="converter-area" style="margin-top: 2rem;">
+                <h3 style="color: #ff8c00; margin-bottom: 1rem;">Finish time calculator</h3>
+                <p style="margin-bottom: 1rem;">Calculate when a race participant will finish a race based on how far he or she has already run. Just enter where the participant is right now in the race.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Distance already run</label>
+                        <input type="number" id="finishDistRun" step="0.1" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; margin-bottom: 0.5rem;">
+                        <select id="finishDistRunUnit" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                            <option value="km">Kilometer (km)</option>
+                            <option value="mile">Mijl (mi)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Time it took</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                            <input type="number" id="finishHH" placeholder="HH" min="0" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                            <input type="number" id="finishMM" placeholder="MM" min="0" max="59" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                            <input type="number" id="finishSS" placeholder="SS" min="0" max="59" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Race distance</label>
+                        <input type="number" id="finishRaceDist" step="0.1" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; margin-bottom: 0.5rem;">
+                        <select id="finishRaceDistUnit" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                            <option value="km">Kilometer (km)</option>
+                            <option value="mile">Mijl (mi)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" onclick="calculateFinishTime()">→</button>
+                
+                <div id="finishTimeResult" style="display: none; margin-top: 1rem; padding: 1rem; background: #e6f2ff; border: 2px solid #0066cc; border-radius: 8px;">
+                    <h4 style="color: #0066cc;">Geschatte eindtijd</h4>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: #004499; margin: 0.5rem 0;"><span id="finishTimeValue"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image to SVG Modal -->
+    <div id="imageToSvgModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeImageToSvgModal()">&times;</span>
+            <h2>PNG/JPG naar SVG Converter</h2>
+            <p>Converteer raster afbeeldingen naar schaalbare vector graphics (SVG)</p>
+            
+            <div class="upload-area" onclick="document.getElementById('svgImageInput').click()" style="cursor: pointer;">
+                <p>📁 Sleep uw PNG of JPG bestand hier of klik om te uploaden</p>
+                <input type="file" id="svgImageInput" accept="image/png,image/jpeg,image/jpg" style="display: none;" onchange="previewImageForSvg(this)">
+                <button class="convert-btn" style="width: auto; padding: 0.6rem 1.5rem; margin-top: 1rem;">Bestand Selecteren</button>
+            </div>
+            
+            <div id="svgPreviewArea" style="display: none; margin: 1.5rem 0;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Voorbeeld:</h3>
+                <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <img id="svgPreviewImage" style="max-width: 100%; max-height: 300px; border-radius: 5px;">
+                </div>
+                <p style="margin-top: 0.5rem; color: var(--text-light); font-size: 0.9rem;" id="svgImageInfo"></p>
+            </div>
+            
+            <div class="converter-area" style="display: none;" id="svgOptionsArea">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Conversie Opties:</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Kleur Modus:</label>
+                    <select id="svgColorMode" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                        <option value="color">Kleur</option>
+                        <option value="monochrome">Zwart-Wit</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Detail Niveau:</label>
+                    <select id="svgDetailLevel" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                        <option value="low">Laag (eenvoudiger, kleiner bestand)</option>
+                        <option value="medium" selected>Gemiddeld</option>
+                        <option value="high">Hoog (meer detail, groter bestand)</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="svgOptimize" checked style="margin-right: 0.5rem; width: 18px; height: 18px;">
+                        <span style="font-weight: 600;">Optimaliseer SVG (kleinere bestandsgrootte)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <button class="convert-btn" onclick="convertImageToSvg()" id="svgConvertBtn" disabled>Converteer naar SVG</button>
+            
+            <div id="svgResult" style="display: none; margin-top: 2rem;">
+                <div style="padding: 1.5rem; background: #e6f7e6; border: 2px solid #4caf50; border-radius: 8px; text-align: center;">
+                    <h3 style="color: #2e7d32; margin-bottom: 1rem;">✅ Conversie Succesvol!</h3>
+                    <div id="svgOutput" style="margin: 1rem 0; padding: 1rem; background: white; border-radius: 5px; max-height: 300px; overflow: auto;"></div>
+                    <button class="convert-btn" onclick="downloadSvg()" style="margin-top: 1rem;">Download SVG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Running Calculator
+        function openRunningModal() {
+            const modal = document.getElementById('runningModal');
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+        }
+
+        function closeRunningModal() {
+            const modal = document.getElementById('runningModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        }
+
+        // Calculate Pace from Distance and Time
+        function calculatePace() {
+            const distance = parseFloat(document.getElementById('runPaceDistance').value);
+            const unit = document.getElementById('runPaceUnit').value;
+            const hh = parseInt(document.getElementById('runPaceHH').value) || 0;
+            const mm = parseInt(document.getElementById('runPaceMM').value) || 0;
+            const ss = parseInt(document.getElementById('runPaceSS').value) || 0;
+            
+            if (!distance || distance <= 0) {
+                alert('Voer een geldige afstand in!');
+                return;
+            }
+            
+            if (hh === 0 && mm === 0 && ss === 0) {
+                alert('Voer een geldige tijd in!');
+                return;
+            }
+            
+            // Convert to km
+            let distKm = unit === 'mile' ? distance * 1.60934 : distance;
+            
+            // Total seconds
+            const totalSec = hh * 3600 + mm * 60 + ss;
+            
+            // Pace per km in seconds
+            const pacePerKmSec = totalSec / distKm;
+            
+            // Calculate all pace/speed values
+            const results = calculateAllPaceValues(pacePerKmSec);
+            
+            // Display pace/speed results
+            document.getElementById('minPerKm').textContent = results.minPerKm;
+            document.getElementById('minPerMile').textContent = results.minPerMile;
+            document.getElementById('kmPerH').textContent = results.kmh;
+            document.getElementById('milePerH').textContent = results.mph;
+            document.getElementById('minPer400').textContent = results.minPer400;
+            document.getElementById('minPer1500').textContent = results.minPer1500;
+            document.getElementById('minPer800yd').textContent = results.minPer800yd;
+            
+            // Calculate race times
+            const races = [
+                { km: 1, id: 'time1k' },
+                { km: 2, id: 'time2k' },
+                { km: 5, id: 'time5k' },
+                { km: 10, id: 'time10k' },
+                { km: 15, id: 'time15k' },
+                { km: 20, id: 'time20k' },
+                { km: 21.0975, id: 'timeHalf' },
+                { km: 42.195, id: 'timeFull' }
+            ];
+            
+            races.forEach(race => {
+                const timeSec = pacePerKmSec * race.km;
+                document.getElementById(race.id).textContent = formatTimeHMS(timeSec);
+            });
+        }
+
+        // Convert Speed/Pace
+        function convertSpeed() {
+            const value = parseFloat(document.getElementById('speedConvertValue').value);
+            const fromUnit = document.getElementById('speedConvertFrom').value;
+            
+            if (!value || value <= 0) {
+                alert('Voer een geldige waarde in!');
+                return;
+            }
+            
+            // Convert everything to pace per km in seconds
+            let pacePerKmSec;
+            
+            switch(fromUnit) {
+                case 'kmh':
+                    pacePerKmSec = 3600 / value;
+                    break;
+                case 'mph':
+                    pacePerKmSec = 3600 / (value * 1.60934);
+                    break;
+                case 'minkm':
+                    pacePerKmSec = value * 60;
+                    break;
+                case 'minmile':
+                    pacePerKmSec = (value * 60) / 1.60934;
+                    break;
+                case 'min400':
+                    pacePerKmSec = (value * 60) * 2.5;
+                    break;
+                case 'min1500':
+                    pacePerKmSec = (value * 60) / 1.5;
+                    break;
+                case 'min800yd':
+                    pacePerKmSec = (value * 60) / 0.73152;
+                    break;
+            }
+            
+            const results = calculateAllPaceValues(pacePerKmSec);
+            
+            document.getElementById('convMinPerKm').textContent = results.minPerKm;
+            document.getElementById('convMinPerMile').textContent = results.minPerMile;
+            document.getElementById('convKmPerH').textContent = results.kmh;
+            document.getElementById('convMilePerH').textContent = results.mph;
+            document.getElementById('convMinPer400').textContent = results.minPer400;
+            document.getElementById('convMinPer1500').textContent = results.minPer1500;
+            document.getElementById('convMinPer800yd').textContent = results.minPer800yd;
+        }
+
+        // Calculate Finish Time
+        function calculateFinishTime() {
+            const distRun = parseFloat(document.getElementById('finishDistRun').value);
+            const distRunUnit = document.getElementById('finishDistRunUnit').value;
+            const hh = parseInt(document.getElementById('finishHH').value) || 0;
+            const mm = parseInt(document.getElementById('finishMM').value) || 0;
+            const ss = parseInt(document.getElementById('finishSS').value) || 0;
+            const raceDist = parseFloat(document.getElementById('finishRaceDist').value);
+            const raceDistUnit = document.getElementById('finishRaceDistUnit').value;
+            
+            if (!distRun || !raceDist || distRun <= 0 || raceDist <= 0) {
+                alert('Voer geldige afstanden in!');
+                return;
+            }
+            
+            if (hh === 0 && mm === 0 && ss === 0) {
+                alert('Voer een geldige tijd in!');
+                return;
+            }
+            
+            // Convert to km
+            const distRunKm = distRunUnit === 'mile' ? distRun * 1.60934 : distRun;
+            const raceDistKm = raceDistUnit === 'mile' ? raceDist * 1.60934 : raceDist;
+            
+            if (distRunKm >= raceDistKm) {
+                alert('De afstand die al is gelopen moet kleiner zijn dan de totale race afstand!');
+                return;
+            }
+            
+            // Calculate pace
+            const totalSec = hh * 3600 + mm * 60 + ss;
+            const pacePerKm = totalSec / distRunKm;
+            
+            // Calculate finish time
+            const finishTimeSec = pacePerKm * raceDistKm;
+            
+            document.getElementById('finishTimeValue').textContent = formatTimeHMS(finishTimeSec);
+            document.getElementById('finishTimeResult').style.display = 'block';
+        }
+
+        // Helper function to calculate all pace/speed values from pace per km in seconds
+        function calculateAllPaceValues(pacePerKmSec) {
+            // Minutes per km
+            const minPerKm = Math.floor(pacePerKmSec / 60);
+            const secPerKm = Math.round(pacePerKmSec % 60);
+            const minPerKmStr = `${minPerKm}:${secPerKm.toString().padStart(2, '0')}`;
+            
+            // Minutes per mile
+            const pacePerMileSec = pacePerKmSec * 1.60934;
+            const minPerMile = Math.floor(pacePerMileSec / 60);
+            const secPerMile = Math.round(pacePerMileSec % 60);
+            const minPerMileStr = `${minPerMile}:${secPerMile.toString().padStart(2, '0')}`;
+            
+            // Km/h
+            const kmh = (3600 / pacePerKmSec).toFixed(2);
+            
+            // Mph
+            const mph = (3600 / pacePerKmSec / 1.60934).toFixed(2);
+            
+            // Minutes per 400m
+            const per400Sec = pacePerKmSec * 0.4;
+            const minPer400 = Math.floor(per400Sec / 60);
+            const secPer400 = Math.round(per400Sec % 60);
+            const minPer400Str = `${minPer400}:${secPer400.toString().padStart(2, '0')}`;
+            
+            // Minutes per 1500m
+            const per1500Sec = pacePerKmSec * 1.5;
+            const minPer1500 = Math.floor(per1500Sec / 60);
+            const secPer1500 = Math.round(per1500Sec % 60);
+            const minPer1500Str = `${minPer1500}:${secPer1500.toString().padStart(2, '0')}`;
+            
+            // Minutes per 800 yards
+            const per800ydSec = pacePerKmSec * 0.73152;
+            const minPer800yd = Math.floor(per800ydSec / 60);
+            const secPer800yd = Math.round(per800ydSec % 60);
+            const minPer800ydStr = `${minPer800yd}:${secPer800yd.toString().padStart(2, '0')}`;
+            
+            return {
+                minPerKm: minPerKmStr,
+                minPerMile: minPerMileStr,
+                kmh: kmh,
+                mph: mph,
+                minPer400: minPer400Str,
+                minPer1500: minPer1500Str,
+                minPer800yd: minPer800ydStr
+            };
+        }
+
+        function formatTimeHMS(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = Math.round(totalSeconds % 60);
+            
+            if (hours > 0) {
+                return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Image to SVG Converter
+        let uploadedImageData = null;
+        let uploadedImageName = '';
+
+        function openImageToSvgModal() {
+            const modal = document.getElementById('imageToSvgModal');
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+            // Reset the form
+            document.getElementById('svgImageInput').value = '';
+            document.getElementById('svgPreviewArea').style.display = 'none';
+            document.getElementById('svgOptionsArea').style.display = 'none';
+            document.getElementById('svgResult').style.display = 'none';
+            document.getElementById('svgConvertBtn').disabled = true;
+            uploadedImageData = null;
+        }
+
+        function closeImageToSvgModal() {
+            const modal = document.getElementById('imageToSvgModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        }
+
+        function previewImageForSvg(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                uploadedImageName = file.name.replace(/\.(png|jpg|jpeg)$/i, '');
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageData = e.target.result;
+                    const previewImg = document.getElementById('svgPreviewImage');
+                    previewImg.src = uploadedImageData;
+                    
+                    document.getElementById('svgPreviewArea').style.display = 'block';
+                    document.getElementById('svgOptionsArea').style.display = 'block';
+                    document.getElementById('svgConvertBtn').disabled = false;
+                    
+                    // Show file info
+                    const sizeKB = (file.size / 1024).toFixed(2);
+                    document.getElementById('svgImageInfo').textContent = 
+                        `Bestandsnaam: ${file.name} | Grootte: ${sizeKB} KB`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function convertImageToSvg() {
+            if (!uploadedImageData) {
+                alert('Upload eerst een afbeelding!');
+                return;
+            }
+
+            // Show loading state
+            const btn = document.getElementById('svgConvertBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Converteren...';
+            btn.disabled = true;
+
+            // Get options
+            const colorMode = document.getElementById('svgColorMode').value;
+            const detailLevel = document.getElementById('svgDetailLevel').value;
+            const optimize = document.getElementById('svgOptimize').checked;
+
+            // Create image element for processing
+            const img = new Image();
+            img.onload = function() {
+                // Create canvas for image processing
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas size
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                // Draw image
+                ctx.drawImage(img, 0, 0);
+                
+                // Get image data
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                
+                // Convert to SVG using edge detection
+                const svg = imageDataToSvg(imageData, colorMode, detailLevel, optimize);
+                
+                // Display result
+                document.getElementById('svgOutput').innerHTML = svg;
+                document.getElementById('svgResult').style.display = 'block';
+                
+                // Reset button
+                btn.textContent = originalText;
+                btn.disabled = false;
+                
+                // Scroll to result
+                document.getElementById('svgResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            };
+            img.src = uploadedImageData;
+        }
+
+        function imageDataToSvg(imageData, colorMode, detailLevel, optimize) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+            
+            // Determine sampling rate based on detail level
+            const sampleRate = detailLevel === 'high' ? 1 : detailLevel === 'medium' ? 2 : 4;
+            
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+`;
+            
+            if (colorMode === 'monochrome') {
+                // Black and white conversion with threshold
+                svg += '<rect width="100%" height="100%" fill="white"/>\n';
+                
+                for (let y = 0; y < height; y += sampleRate) {
+                    for (let x = 0; x < width; x += sampleRate) {
+                        const i = (y * width + x) * 4;
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        const brightness = (r + g + b) / 3;
+                        
+                        if (brightness < 128) {
+                            svg += `<rect x="${x}" y="${y}" width="${sampleRate}" height="${sampleRate}" fill="black"/>\n`;
+                        }
+                    }
+                }
+            } else {
+                // Color mode - sample pixels and create colored rectangles
+                for (let y = 0; y < height; y += sampleRate) {
+                    for (let x = 0; x < width; x += sampleRate) {
+                        const i = (y * width + x) * 4;
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        const a = data[i + 3] / 255;
+                        
+                        if (a > 0.1) { // Skip nearly transparent pixels
+                            const color = `rgb(${r},${g},${b})`;
+                            const opacity = a < 1 ? ` opacity="${a.toFixed(2)}"` : '';
+                            svg += `<rect x="${x}" y="${y}" width="${sampleRate}" height="${sampleRate}" fill="${color}"${opacity}/>\n`;
+                        }
+                    }
+                }
+            }
+            
+            svg += '</svg>';
+            
+            return svg;
+        }
+
+        function downloadSvg() {
+            const svgContent = document.getElementById('svgOutput').innerHTML;
+            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = (uploadedImageName || 'converted') + '.svg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Translations
+        const translations = {
+            'nl': {
+                nav_home: 'Home',
+                nav_categories: 'Categorieën',
+                nav_ai_tools: 'AI Tools',
+                nav_faq: 'FAQ',
+                hero_title: 'Online Conversie Tools & Calculators',
+                hero_subtitle: 'Converteer alles - Valuta, Lengtes, Gewicht, Temperatuur en meer',
+                hero_search: 'Zoek een conversietool...',
+                hero_button: 'Zoeken',
+                ai_tools_title: 'AI-Powered Tools',
+                ai_tools_subtitle: 'Professionele conversie- en bewerkingstools',
+                categories_title: 'Categorieën',
+                categories_subtitle: 'Kies een categorie om te converteren',
+                features_title: 'Waarom AI Tools Center?',
+                features_subtitle: 'De voordelen van onze platform',
+                feature1_title: 'Supersnel',
+                feature1_text: 'Directe resultaten zonder wachttijd. Alle conversies gebeuren in real-time.',
+                feature2_title: 'Meertalig',
+                feature2_text: 'Beschikbaar in 32 talen voor gebruikers over de hele wereld.',
+                feature3_title: '100% Veilig',
+                feature3_text: 'Uw data is veilig. Alle bestanden worden na gebruik automatisch verwijderd.',
+                feature4_title: 'Gratis',
+                feature4_text: 'Alle tools zijn volledig gratis te gebruiken zonder verborgen kosten.',
+                testimonials_title: 'Wat Gebruikers Zeggen',
+                testimonials_subtitle: 'Reviews van tevreden klanten',
+                faq_title: 'Veelgestelde Vragen',
+                faq_subtitle: 'Antwoorden op uw vragen',
+                convert_button: 'Converteren',
+                process_button: 'Verwerken',
+                upload_text: 'Sleep uw bestand hier of klik om te uploaden',
+                select_file: 'Bestand Selecteren',
+                enter_text: 'Voer uw tekst hier in...'
+            },
+            'en': {
+                nav_home: 'Home',
+                nav_categories: 'Categories',
+                nav_ai_tools: 'AI Tools',
+                nav_faq: 'FAQ',
+                hero_title: 'Online Conversion Tools & Calculators',
+                hero_subtitle: 'Convert everything - Currency, Length, Weight, Temperature and more',
+                hero_search: 'Search for a conversion tool...',
+                hero_button: 'Search',
+                ai_tools_title: 'AI-Powered Tools',
+                ai_tools_subtitle: 'Professional conversion and editing tools',
+                categories_title: 'Categories',
+                categories_subtitle: 'Choose a category to convert',
+                features_title: 'Why AI Tools Center?',
+                features_subtitle: 'The advantages of our platform',
+                feature1_title: 'Super Fast',
+                feature1_text: 'Instant results without waiting. All conversions happen in real-time.',
+                feature2_title: 'Multilingual',
+                feature2_text: 'Available in 32 languages for users worldwide.',
+                feature3_title: '100% Secure',
+                feature3_text: 'Your data is safe. All files are automatically deleted after use.',
+                feature4_title: 'Free',
+                feature4_text: 'All tools are completely free to use without hidden costs.',
+                testimonials_title: 'What Users Say',
+                testimonials_subtitle: 'Reviews from satisfied customers',
+                faq_title: 'Frequently Asked Questions',
+                faq_subtitle: 'Answers to your questions',
+                convert_button: 'Convert',
+                process_button: 'Process',
+                upload_text: 'Drag your file here or click to upload',
+                select_file: 'Select File',
+                enter_text: 'Enter your text here...'
+            },
+            'es': {
+                nav_home: 'Inicio',
+                nav_categories: 'Categorías',
+                nav_ai_tools: 'Herramientas IA',
+                nav_faq: 'Preguntas',
+                hero_title: 'Herramientas de Conversión y Calculadoras en Línea',
+                hero_subtitle: 'Convierte todo - Moneda, Longitud, Peso, Temperatura y más',
+                hero_search: 'Buscar una herramienta de conversión...',
+                hero_button: 'Buscar',
+                ai_tools_title: 'Herramientas con IA',
+                ai_tools_subtitle: 'Herramientas profesionales de conversión y edición',
+                categories_title: 'Categorías',
+                categories_subtitle: 'Elija una categoría para convertir',
+                features_title: '¿Por qué AI Tools Center?',
+                features_subtitle: 'Las ventajas de nuestra plataforma',
+                feature1_title: 'Súper Rápido',
+                feature1_text: 'Resultados instantáneos sin espera. Todas las conversiones ocurren en tiempo real.',
+                feature2_title: 'Multilingüe',
+                feature2_text: 'Disponible en 32 idiomas para usuarios de todo el mundo.',
+                feature3_title: '100% Seguro',
+                feature3_text: 'Sus datos están seguros. Todos los archivos se eliminan automáticamente después de su uso.',
+                feature4_title: 'Gratis',
+                feature4_text: 'Todas las herramientas son completamente gratuitas sin costos ocultos.',
+                testimonials_title: 'Lo Que Dicen Los Usuarios',
+                testimonials_subtitle: 'Reseñas de clientes satisfechos',
+                faq_title: 'Preguntas Frecuentes',
+                faq_subtitle: 'Respuestas a sus preguntas',
+                convert_button: 'Convertir',
+                process_button: 'Procesar',
+                upload_text: 'Arrastra tu archivo aquí o haz clic para subir',
+                select_file: 'Seleccionar Archivo',
+                enter_text: 'Ingrese su texto aquí...'
+            },
+            'de': {
+                nav_home: 'Startseite',
+                nav_categories: 'Kategorien',
+                nav_ai_tools: 'KI-Tools',
+                nav_faq: 'FAQ',
+                hero_title: 'Online-Konvertierungs-Tools & Rechner',
+                hero_subtitle: 'Konvertieren Sie alles - Währung, Länge, Gewicht, Temperatur und mehr',
+                hero_search: 'Suchen Sie nach einem Konvertierungs-Tool...',
+                hero_button: 'Suchen',
+                ai_tools_title: 'KI-gestützte Tools',
+                ai_tools_subtitle: 'Professionelle Konvertierungs- und Bearbeitungstools',
+                categories_title: 'Kategorien',
+                categories_subtitle: 'Wählen Sie eine Kategorie zum Konvertieren',
+                features_title: 'Warum AI Tools Center?',
+                features_subtitle: 'Die Vorteile unserer Plattform',
+                feature1_title: 'Superschnell',
+                feature1_text: 'Sofortige Ergebnisse ohne Wartezeit. Alle Konvertierungen erfolgen in Echtzeit.',
+                feature2_title: 'Mehrsprachig',
+                feature2_text: 'Verfügbar in 32 Sprachen für Benutzer weltweit.',
+                feature3_title: '100% Sicher',
+                feature3_text: 'Ihre Daten sind sicher. Alle Dateien werden nach Gebrauch automatisch gelöscht.',
+                feature4_title: 'Kostenlos',
+                feature4_text: 'Alle Tools sind völlig kostenlos ohne versteckte Kosten.',
+                testimonials_title: 'Was Benutzer Sagen',
+                testimonials_subtitle: 'Bewertungen von zufriedenen Kunden',
+                faq_title: 'Häufig Gestellte Fragen',
+                faq_subtitle: 'Antworten auf Ihre Fragen',
+                convert_button: 'Konvertieren',
+                process_button: 'Verarbeiten',
+                upload_text: 'Ziehen Sie Ihre Datei hierher oder klicken Sie zum Hochladen',
+                select_file: 'Datei Auswählen',
+                enter_text: 'Geben Sie hier Ihren Text ein...'
+            },
+            'fr': {
+                nav_home: 'Accueil',
+                nav_categories: 'Catégories',
+                nav_ai_tools: 'Outils IA',
+                nav_faq: 'FAQ',
+                hero_title: 'Outils de Conversion en Ligne et Calculatrices',
+                hero_subtitle: 'Convertissez tout - Devise, Longueur, Poids, Température et plus',
+                hero_search: 'Rechercher un outil de conversion...',
+                hero_button: 'Rechercher',
+                ai_tools_title: 'Outils Alimentés par IA',
+                ai_tools_subtitle: 'Outils professionnels de conversion et d\'édition',
+                categories_title: 'Catégories',
+                categories_subtitle: 'Choisissez une catégorie pour convertir',
+                features_title: 'Pourquoi AI Tools Center?',
+                features_subtitle: 'Les avantages de notre plateforme',
+                feature1_title: 'Super Rapide',
+                feature1_text: 'Résultats instantanés sans attente. Toutes les conversions se font en temps réel.',
+                feature2_title: 'Multilingue',
+                feature2_text: 'Disponible en 32 langues pour les utilisateurs du monde entier.',
+                feature3_title: '100% Sécurisé',
+                feature3_text: 'Vos données sont en sécurité. Tous les fichiers sont automatiquement supprimés après utilisation.',
+                feature4_title: 'Gratuit',
+                feature4_text: 'Tous les outils sont entièrement gratuits sans frais cachés.',
+                testimonials_title: 'Ce Que Disent Les Utilisateurs',
+                testimonials_subtitle: 'Avis de clients satisfaits',
+                faq_title: 'Questions Fréquemment Posées',
+                faq_subtitle: 'Réponses à vos questions',
+                convert_button: 'Convertir',
+                process_button: 'Traiter',
+                upload_text: 'Faites glisser votre fichier ici ou cliquez pour télécharger',
+                select_file: 'Sélectionner un Fichier',
+                enter_text: 'Entrez votre texte ici...'
+            }
+        };
+
+        let currentLanguage = 'nl';
+
+        // Translation function
+        function translatePage(lang) {
+            currentLanguage = lang;
+            const trans = translations[lang] || translations['nl'];
+            
+            // Translate elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (trans[key]) {
+                    element.textContent = trans[key];
+                }
+            });
+            
+            // Translate placeholders
+            const searchInput = document.querySelector('.search-box input');
+            if (searchInput && trans.hero_search) {
+                searchInput.placeholder = trans.hero_search;
+            }
+            
+            const textInput = document.getElementById('textInput');
+            if (textInput && trans.enter_text) {
+                textInput.placeholder = trans.enter_text;
+            }
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Language dropdown
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('languageMenu');
+            menu.classList.toggle('show');
+        }
+
+        function selectLanguage(element, language) {
+            event.preventDefault();
+            
+            // Get language code from language name
+            const langMap = {
+                'Nederlands': 'nl',
+                'English': 'en',
+                'Español': 'es',
+                'Deutsch': 'de',
+                'Français': 'fr'
+            };
+            
+            const langCode = langMap[language] || 'nl';
+            
+            // Translate the page
+            translatePage(langCode);
+            
+            // Update button text
+            document.querySelector('.language-btn').innerHTML = `🌐 ${language} ▼`;
+            
+            // Update active state
+            document.querySelectorAll('.language-menu a').forEach(a => a.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Close menu
+            document.getElementById('languageMenu').classList.remove('show');
+        }
+
+        // Close language menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.language-dropdown');
+            const menu = document.getElementById('languageMenu');
+            
+            if (dropdown && !dropdown.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Conversion data
+        const conversionData = {
+            'Lengte': {
+                units: {
+                    'meter': 1,
+                    'kilometer': 1000,
+                    'centimeter': 0.01,
+                    'millimeter': 0.001,
+                    'mijl': 1609.34,
+                    'yard': 0.9144,
+                    'voet': 0.3048,
+                    'inch': 0.0254
+                }
+            },
+            'Gewicht': {
+                units: {
+                    'kilogram': 1,
+                    'gram': 0.001,
+                    'ton': 1000,
+                    'pond (lb)': 0.453592,
+                    'ounce': 0.0283495
+                }
+            },
+            'Volume': {
+                units: {
+                    'liter': 1,
+                    'milliliter': 0.001,
+                    'gallon (US)': 3.78541,
+                    'gallon (UK)': 4.54609,
+                    'kubieke meter': 1000,
+                    'kubieke centimeter': 0.001
+                }
+            },
+            'Temperatuur': {
+                special: true
+            },
+            'Snelheid': {
+                units: {
+                    'km/h': 1,
+                    'm/s': 3.6,
+                    'mph': 1.60934,
+                    'knoop': 1.852,
+                    'voet/seconde': 1.09728,
+                    'min/km': 'special',
+                    'min/mijl': 'special'
+                },
+                special: 'pace'
+            },
+            'Versnelling': {
+                units: {
+                    'm/s²': 1,
+                    'km/h/s': 3.6,
+                    'g (zwaartekracht)': 9.80665,
+                    'ft/s²': 0.3048,
+                    'mijl/h/s': 0.44704
+                }
+            },
+            'Hardlopen': {
+                special: 'running'
+            },
+            'Tijd': {
+                units: {
+                    'seconde': 1,
+                    'minuut': 60,
+                    'uur': 3600,
+                    'dag': 86400,
+                    'week': 604800
+                }
+            },
+            'Druk': {
+                units: {
+                    'Pascal': 1,
+                    'bar': 100000,
+                    'PSI': 6894.76,
+                    'atmosfeer': 101325
+                }
+            },
+            'Energie': {
+                units: {
+                    'Joule': 1,
+                    'kilojoule': 1000,
+                    'calorie': 4.184,
+                    'kilocalorie': 4184,
+                    'kWh': 3600000
+                }
+            },
+            'Vermogen': {
+                units: {
+                    'Watt': 1,
+                    'kilowatt': 1000,
+                    'paardenkracht (pk)': 735.5,
+                    'horsepower (HP)': 745.7
+                }
+            },
+            'Hoek': {
+                units: {
+                    'graden': 1,
+                    'radialen': 57.2958,
+                    'gradiënt': 0.9
+                }
+            },
+            'Gebied': {
+                units: {
+                    'vierkante meter': 1,
+                    'vierkante kilometer': 1000000,
+                    'hectare': 10000,
+                    'vierkante mijl': 2589988,
+                    'acre': 4046.86
+                }
+            },
+            'Frequentie': {
+                units: {
+                    'Hertz (Hz)': 1,
+                    'kilohertz (kHz)': 1000,
+                    'megahertz (MHz)': 1000000,
+                    'gigahertz (GHz)': 1000000000
+                }
+            }
+        };
+
+        // Open converter modal
+        function openConverterModal(category) {
+            const modal = document.getElementById('converterModal');
+            document.getElementById('converterTitle').textContent = category + ' Conversie';
+            document.getElementById('converterDescription').textContent = 'Converteer tussen verschillende ' + category.toLowerCase() + ' eenheden';
+            
+            const fromUnit = document.getElementById('fromUnit');
+            const toUnit = document.getElementById('toUnit');
+            
+            fromUnit.innerHTML = '';
+            toUnit.innerHTML = '';
+            
+            if (conversionData[category] && !conversionData[category].special) {
+                const units = Object.keys(conversionData[category].units);
+                units.forEach(unit => {
+                    fromUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+                    toUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+                });
+                
+                // Set different default values
+                if (units.length > 1) {
+                    toUnit.selectedIndex = 1;
+                }
+            } else if (category === 'Temperatuur') {
+                const tempUnits = ['Celsius', 'Fahrenheit', 'Kelvin'];
+                tempUnits.forEach(unit => {
+                    fromUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+                    toUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+                });
+                toUnit.selectedIndex = 1;
+            }
+            
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+            
+            // Auto-convert on input
+            document.getElementById('inputValue').oninput = performConversion;
+            document.getElementById('fromUnit').onchange = performConversion;
+            document.getElementById('toUnit').onchange = performConversion;
+        }
+
+        function closeConverterModal() {
+            const modal = document.getElementById('converterModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.getElementById('conversionResult').style.display = 'none';
+        }
+
+        function performConversion() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value) || 0;
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const category = document.getElementById('converterTitle').textContent.replace(' Conversie', '');
+            
+            let result;
+            
+            if (category === 'Temperatuur') {
+                result = convertTemperature(inputValue, fromUnit, toUnit);
+            } else if (conversionData[category]) {
+                const units = conversionData[category].units;
+                const baseValue = inputValue * units[fromUnit];
+                result = baseValue / units[toUnit];
+            }
+            
+            document.getElementById('outputValue').value = result.toFixed(4);
+            
+            const resultBox = document.getElementById('conversionResult');
+            resultBox.textContent = `${inputValue} ${fromUnit} = ${result.toFixed(4)} ${toUnit}`;
+            resultBox.style.display = 'block';
+        }
+
+        function convertTemperature(value, from, to) {
+            let celsius;
+            
+            // Convert to Celsius first
+            switch(from) {
+                case 'Celsius':
+                    celsius = value;
+                    break;
+                case 'Fahrenheit':
+                    celsius = (value - 32) * 5/9;
+                    break;
+                case 'Kelvin':
+                    celsius = value - 273.15;
+                    break;
+            }
+            
+            // Convert from Celsius to target
+            switch(to) {
+                case 'Celsius':
+                    return celsius;
+                case 'Fahrenheit':
+                    return (celsius * 9/5) + 32;
+                case 'Kelvin':
+                    return celsius + 273.15;
+            }
+        }
+
+        // File Upload Modal
+        function openFileModal(title, description) {
+            document.getElementById('fileModalTitle').textContent = title;
+            document.getElementById('fileModalDescription').textContent = description;
+            const modal = document.getElementById('fileModal');
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+        }
+
+        function closeFileModal() {
+            const modal = document.getElementById('fileModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.getElementById('fileInput').value = '';
+        }
+
+        function processFile() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
+                alert('Bestand wordt verwerkt: ' + fileInput.files[0].name);
+                closeFileModal();
+            } else {
+                alert('Selecteer eerst een bestand!');
+            }
+        }
+
+        // Text Input Modal
+        function openTextModal(title, description) {
+            document.getElementById('textModalTitle').textContent = title;
+            document.getElementById('textModalDescription').textContent = description;
+            document.getElementById('textInput').value = '';
+            document.getElementById('textResult').style.display = 'none';
+            const modal = document.getElementById('textModal');
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+        }
+
+        function closeTextModal() {
+            const modal = document.getElementById('textModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.getElementById('textInput').value = '';
+            document.getElementById('textResult').style.display = 'none';
+        }
+
+        function processText() {
+            const text = document.getElementById('textInput').value;
+            const title = document.getElementById('textModalTitle').textContent;
+            
+            if (!text.trim()) {
+                alert('Voer eerst tekst in!');
+                return;
+            }
+
+            let result = '';
+            
+            // Different processing based on tool
+            if (title.includes('Woordenteller')) {
+                const words = text.trim().split(/\s+/).length;
+                const chars = text.length;
+                const charsNoSpaces = text.replace(/\s/g, '').length;
+                result = `Woorden: ${words} | Tekens: ${chars} | Tekens (zonder spaties): ${charsNoSpaces}`;
+            } else if (title.includes('Tekenteller')) {
+                result = `Totaal aantal tekens: ${text.length}`;
+            } else if (title.includes('spaties')) {
+                const cleaned = text.replace(/\s+/g, ' ').trim();
+                document.getElementById('textInput').value = cleaned;
+                result = 'Overtollige spaties zijn verwijderd!';
+            } else if (title.includes('QR')) {
+                result = 'QR-code wordt gegenereerd...';
+            } else {
+                result = 'Tekst is verwerkt!';
+            }
+            
+            const resultBox = document.getElementById('textResult');
+            resultBox.textContent = result;
+            resultBox.style.display = 'block';
+        }
+
+        // Generic modal (for backwards compatibility)
+        function openModal(title, description) {
+            openFileModal(title, description);
+        }
+
+        function closeGenericModal() {
+            closeFileModal();
+        }
+
+        function openCategoryModal(title, description) {
+            openFileModal(title, description);
+        }
+
+        // Vcard Generator
+        function openVcardModal() {
+            const modal = document.getElementById('vcardModal');
+            modal.classList.add('show');
+            modal.style.display = 'flex';
+        }
+
+        function closeVcardModal() {
+            const modal = document.getElementById('vcardModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.getElementById('vcardResult').innerHTML = '';
+        }
+
+        function generateVcard() {
+            const firstName = document.getElementById('vcardFirstName').value.trim();
+            const lastName = document.getElementById('vcardLastName').value.trim();
+            const email = document.getElementById('vcardEmail').value.trim();
+            const phone = document.getElementById('vcardPhone').value.trim();
+            const company = document.getElementById('vcardCompany').value.trim();
+            const website = document.getElementById('vcardWebsite').value.trim();
+            
+            if (!firstName && !lastName) {
+                alert('Vul minimaal een voor- of achternaam in!');
+                return;
+            }
+            
+            let vcard = 'BEGIN:VCARD\n';
+            vcard += 'VERSION:3.0\n';
+            vcard += `N:${lastName};${firstName};;;\n`;
+            vcard += `FN:${firstName} ${lastName}\n`;
+            if (company) vcard += `ORG:${company}\n`;
+            if (email) vcard += `EMAIL:${email}\n`;
+            if (phone) vcard += `TEL:${phone}\n`;
+            if (website) vcard += `URL:${website}\n`;
+            vcard += 'END:VCARD';
+            
+            const resultDiv = document.getElementById('vcardResult');
+            resultDiv.innerHTML = '';
+            
+            const qrContainer = document.createElement('div');
+            qrContainer.id = 'qrcode';
+            qrContainer.style.padding = '1.5rem';
+            qrContainer.style.background = 'white';
+            qrContainer.style.borderRadius = '8px';
+            qrContainer.style.display = 'inline-block';
+            qrContainer.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            
+            resultDiv.appendChild(qrContainer);
+            
+            new QRCode(qrContainer, {
+                text: vcard,
+                width: 256,
+                height: 256,
+                colorDark: '#0066cc',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            const successMsg = document.createElement('div');
+            successMsg.style.marginTop = '1rem';
+            successMsg.style.color = 'var(--primary-color)';
+            successMsg.style.fontWeight = '600';
+            successMsg.innerHTML = '✅ QR-Code succesvol gegenereerd!<br><small style="color: #666; font-weight: normal;">Scan deze code met je telefoon</small>';
+            resultDiv.appendChild(successMsg);
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'convert-btn';
+            downloadBtn.textContent = 'Download QR-Code';
+            downloadBtn.style.marginTop = '1rem';
+            downloadBtn.onclick = function() {
+                const canvas = qrContainer.querySelector('canvas');
+                const url = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `vcard-qr-${firstName}-${lastName}.png`;
+                link.href = url;
+                link.click();
+            };
+            resultDiv.appendChild(downloadBtn);
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+        }
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            const fileModal = document.getElementById('fileModal');
+            const textModal = document.getElementById('textModal');
+            const converterModal = document.getElementById('converterModal');
+            const vcardModal = document.getElementById('vcardModal');
+            const imageToSvgModal = document.getElementById('imageToSvgModal');
+            const runningModal = document.getElementById('runningModal');
+            
+            if (event.target == fileModal) {
+                closeFileModal();
+            }
+            if (event.target == textModal) {
+                closeTextModal();
+            }
+            if (event.target == converterModal) {
+                closeConverterModal();
+            }
+            if (event.target == vcardModal) {
+                closeVcardModal();
+            }
+            if (event.target == imageToSvgModal) {
+                closeImageToSvgModal();
+            }
+            if (event.target == runningModal) {
+                closeRunningModal();
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'nl';
+            if (savedLang !== 'nl') {
+                translatePage(savedLang);
+                // Update button text
+                const langNames = {'nl': 'Nederlands', 'en': 'English', 'es': 'Español', 'de': 'Deutsch', 'fr': 'Français'};
+                document.querySelector('.language-btn').innerHTML = `🌐 ${langNames[savedLang] || 'Nederlands'} ▼`;
+            }
+        });
+    </script>
+</body>
+</html>
